@@ -132,9 +132,18 @@ const changeSlide = (index) => {
 searchBtn.addEventListener('click', function () {
   document.querySelector('.main').style.display = 'none';
   clearInterval(timer);
-  const search = document.getElementById('search');
-  getImages(search.value)
-  sliders.length = 0;
+  const search = document.getElementById('search').value;
+  //search validation added
+  if (search === ""){
+    const searchWarning = document.getElementById('searchWarning');
+    const warningMessage = `<h5 class ="text-center text-danger">put some text on the search box</h5>`
+    searchWarning.innerHTML = warningMessage;
+  }
+  else {
+    searchWarning.innerHTML = "";
+    getImages(search)
+    sliders.length = 0;
+  }
 })
 
 
