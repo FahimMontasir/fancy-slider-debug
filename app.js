@@ -6,7 +6,13 @@ const sliderBtn = document.getElementById('create-slider');
 const sliderContainer = document.getElementById('sliders');
 // selected image 
 let sliders = [];
-
+//growing Spinner
+const showSpinner = () => {
+  const spinnerDiv = document.getElementById('growingSpinner');
+  spinnerDiv.classList.remove = 'd-none';
+ }
+ 
+showSpinner()
 
 // If this key doesn't work
 // Find the name in the url and go to their website
@@ -15,6 +21,7 @@ const KEY = '15674931-a9d714b6e9d654524df198e00&q';
 
 // show images 
 const showImages = (images) => {
+  
   imagesArea.style.display = 'block';
   gallery.innerHTML = '';
   // show gallery title
@@ -24,6 +31,7 @@ const showImages = (images) => {
     div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
     gallery.appendChild(div)
+    
   })
 
 }
@@ -33,6 +41,7 @@ const getImages = (query) => {
     .then(response => response.json())
     .then(data => showImages(data.hits)) //array name spelling fixed
     .catch(err => console.log(err))
+    showSpinner()
 }
 
 let slideIndex = 0;
@@ -60,7 +69,7 @@ const createSlider = () => {
     return;
   }
   // check slider image length
-  if (sliders.length < 2) { 
+  if (sliders.length < 2) {
     const warning = document.getElementById('warning');
     const warningMessage = `<h5 class ="text-center text-warning">select at least two images</h5>`
     warning.innerHTML = warningMessage;
@@ -80,22 +89,22 @@ const createSlider = () => {
   document.querySelector('.main').style.display = 'block';
   // hide image aria
   imagesArea.style.display = 'none';
-  
-    sliders.forEach(slide => {
-      let item = document.createElement('div')
-      item.className = "slider-item";
-      item.innerHTML = `<img class="w-100"
+
+  sliders.forEach(slide => {
+    let item = document.createElement('div')
+    item.className = "slider-item";
+    item.innerHTML = `<img class="w-100"
       src="${slide}"
       alt="">`;
-      sliderContainer.appendChild(item)
-    })
-    changeSlide(0)
-    timer = setInterval(function () {
-      slideIndex++;
-      changeSlide(slideIndex);
-    }, duration ||1000);
-  }
- 
+    sliderContainer.appendChild(item)
+  })
+  changeSlide(0)
+  timer = setInterval(function () {
+    slideIndex++;
+    changeSlide(slideIndex);
+  }, duration || 1000);
+}
+
 
 // change slider index 
 const changeItem = index => {
@@ -124,6 +133,7 @@ const changeSlide = (index) => {
 }
 
 searchBtn.addEventListener('click', function () {
+
   document.querySelector('.main').style.display = 'none';
   clearInterval(timer);
   const search = document.getElementById('search');
