@@ -116,25 +116,24 @@ const changeSlide = (index) => {
     slideIndex = items.length - 1;
     index = slideIndex;
   };
-
   if (index >= items.length) {
     index = 0;
     slideIndex = 0;
   }
-
   items.forEach(item => {
     item.style.display = "none";
   })
-
   items[index].style.display = "block";
 }
 
+
+//search button
 searchBtn.addEventListener('click', function () {
   document.querySelector('.main').style.display = 'none';
   clearInterval(timer);
   const search = document.getElementById('search').value;
   //search validation added
-  if (search === ""){
+  if (search === "") {
     const searchWarning = document.getElementById('searchWarning');
     const warningMessage = `<h5 class ="text-center text-danger">put some text on the search box</h5>`
     searchWarning.innerHTML = warningMessage;
