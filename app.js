@@ -38,25 +38,36 @@ const getImages = (query) => {
 let slideIndex = 0;
 const selectItem = (event, img) => {
   let element = event.target;
-  element.classList.add('added');
- 
   let item = sliders.indexOf(img);
+  //select and deselect
   if (item === -1) {
+    element.classList.toggle('added');
     sliders.push(img);
   } else {
-    alert('Hey, Already added !')
+    element.classList.toggle('added');
+    const index = sliders.indexOf(img);
+    sliders.splice(index, 1);
   }
 }
 var timer
 const createSlider = () => {
-  // check slider image length
+  // check slider duration
   const duration = document.getElementById('duration').value;
-  if (sliders.length < 2 || duration < 0) {
-    // alert('Select at least 2 image.')
-    
+  if (duration < 0) {
+    const warning = document.getElementById('warning');
+    const warningMessage = `<h5 class ="text-center text-danger">negative duration doesn't allowed</h5>`
+    warning.innerHTML = warningMessage;
+    return;
+  }
+  // check slider image length
+  if (sliders.length < 2) { 
+    const warning = document.getElementById('warning');
+    const warningMessage = `<h5 class ="text-center text-warning">select at least two images</h5>`
+    warning.innerHTML = warningMessage;
     return;
   }
   // crate slider previous next area
+  document.getElementById('warning').innerHTML = '';
   sliderContainer.innerHTML = '';
   const prevNext = document.createElement('div');
   prevNext.className = "prev-next d-flex w-100 justify-content-between align-items-center";
@@ -119,7 +130,12 @@ searchBtn.addEventListener('click', function () {
   getImages(search.value)
   sliders.length = 0;
 })
-
+//enter key added
 sliderBtn.addEventListener('click', function () {
   createSlider()
 })
+document.getElementById("search").addEventListener("keyup", (event) => {
+  if (event.key === 'Enter') {
+    document.getElementById("search-btn").click();
+  }
+});
