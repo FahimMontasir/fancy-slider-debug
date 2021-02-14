@@ -31,7 +31,7 @@ const showImages = (images) => {
 const getImages = (query) => {
   fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
     .then(response => response.json())
-    .then(data => showImages(data.hitS))
+    .then(data => showImages(data.hits)) //array name spelling fixed
     .catch(err => console.log(err))
 }
 
@@ -50,8 +50,10 @@ const selectItem = (event, img) => {
 var timer
 const createSlider = () => {
   // check slider image length
-  if (sliders.length < 2) {
-    alert('Select at least 2 image.')
+  const duration = document.getElementById('duration').value;
+  if (sliders.length < 2 || duration < 0) {
+    // alert('Select at least 2 image.')
+    
     return;
   }
   // crate slider previous next area
@@ -67,21 +69,22 @@ const createSlider = () => {
   document.querySelector('.main').style.display = 'block';
   // hide image aria
   imagesArea.style.display = 'none';
-  const duration = document.getElementById('duration').value || 1000;
-  sliders.forEach(slide => {
-    let item = document.createElement('div')
-    item.className = "slider-item";
-    item.innerHTML = `<img class="w-100"
-    src="${slide}"
-    alt="">`;
-    sliderContainer.appendChild(item)
-  })
-  changeSlide(0)
-  timer = setInterval(function () {
-    slideIndex++;
-    changeSlide(slideIndex);
-  }, duration);
-}
+  
+    sliders.forEach(slide => {
+      let item = document.createElement('div')
+      item.className = "slider-item";
+      item.innerHTML = `<img class="w-100"
+      src="${slide}"
+      alt="">`;
+      sliderContainer.appendChild(item)
+    })
+    changeSlide(0)
+    timer = setInterval(function () {
+      slideIndex++;
+      changeSlide(slideIndex);
+    }, duration ||1000);
+  }
+ 
 
 // change slider index 
 const changeItem = index => {
